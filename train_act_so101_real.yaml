@@ -1,0 +1,72 @@
+dataset:
+  repo_id: nashmo/so101
+  root: data
+  video_backend: pyav
+
+output_dir: outputs/train/act_so101
+
+policy:
+  type: act
+  n_obs_steps: 1
+  n_action_steps: 100
+
+  normalization_mapping:
+    ACTION: MEAN_STD
+    STATE: MEAN_STD
+    VISUAL: MEAN_STD
+  
+  input_features:
+    observation.images.laptop:
+      type: VISUAL
+      shape: [3, 480, 640]
+    observation.images.phone1:
+      type: VISUAL
+      shape: [3, 480, 640]
+    observation.state:
+      type: STATE
+      shape: [6]
+  
+  output_features:
+    action:
+      type: ACTION
+      shape: [6]
+  
+  device: cpu
+
+  # input_shapes:
+  #   observation.images.laptop: [3, 480, 640]
+  #   observation.images.phone1: [3, 480, 640]
+  #   observation.state: ["${env.state_dim}"]
+  # output_shapes:
+  #   action: ["${env.action_dim}"]
+
+  # input_normalization_modes:
+  #   observation.images.laptop: mean_std
+  #   observation.images.phone1: mean_std
+  #   observation.state: mean_std
+  # output_normalization_modes:
+  #   action: mean_std
+    
+  vision_backbone: resnet18
+  pretrained_backbone_weights: ResNet18_Weights.IMAGENET1K_V1
+  replace_final_stride_with_dilation: false
+
+  pre_norm: false
+  dim_model: 512
+  n_heads: 8
+  dim_feedforward: 3200
+  feedforward_activation: relu
+  n_encoder_layers: 4
+  n_decoder_layers: 1
+  
+  use_vae: true
+  latent_dim: 32
+  temporal_ensemble_coeff: null
+
+  dropout: 0.1
+  kl_weight: 10.0
+
+job_name: act_so101
+
+wandb:
+  enable: false
