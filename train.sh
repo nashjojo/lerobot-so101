@@ -23,4 +23,4 @@ DATA_DIR="data"
 # python lerobot/scripts/train.py \
 #     --config_path=train_act_so101_real.yaml
 
-python lerobot/scripts/train.py --config_path=outputs/train/act_so101/checkpoints/last/pretrained_model/train_config.json --num_workers=0 --steps=10 --resume=true
+python lerobot/scripts/train.py --config_path=outputs/train/act_so101/checkpoints/last/pretrained_model/train_config.json --num_workers=0 --steps=80000 --save_freq=10000 --resume=true --policy.device=cpu
